@@ -1,3 +1,5 @@
+from sorter import merge_sort_by_score
+
 def ngram(text, n):
     # 文字を小文字にする
     text = text.lower()
@@ -48,4 +50,5 @@ def search_notes(notes, keyword):
                 "note": note,
                 "score": score
             })
-    return results
+
+    return merge_sort_by_score(results)

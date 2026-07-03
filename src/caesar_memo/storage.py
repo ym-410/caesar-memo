@@ -64,7 +64,7 @@ def read_note(note_id):
 
     for note in notes:
         if note["id"] == note_id:
-            return note["title"], note["body"]
+            return note
     return None
 
 # メモを更新する関数
@@ -76,7 +76,7 @@ def update_note(note_id, title, body):
         if note["id"] == note_id:
             note["title"] = title
             note["body"] = body
-            note["updated_at"] = now()
+            note["updated_at"] = now
             save_notes(notes)
             return True
     return False

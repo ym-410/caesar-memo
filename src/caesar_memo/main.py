@@ -38,7 +38,8 @@ def handle_read():
         print("指定されたIDのメモはありません")
         return
 
-    title, body = note
+    title = note["title"]
+    body = note["body"]
 
     # パスワードの入力
     shift = input_password_shift()

@@ -28,9 +28,12 @@ Caesar Memo は、シーザー暗号と Base64 を使って本文を暗号化し
 
 - Python 3.12
 - uv
-- Python 標準ライブラリのみ
+- FastAPI
+- Uvicorn
 
 ## 実行方法
+
+### CLI
 
 ```powershell
 uv run python src\caesar_memo\main.py
@@ -42,7 +45,31 @@ uv run python src\caesar_memo\main.py
 .\.venv\Scripts\python.exe src\caesar_memo\main.py
 ```
 
+### HTTP API
+
+FastAPI を使って HTTP API サーバーを起動できます。
+
+```powershell
+uv run uvicorn src.caesar_memo.api:app --reload
+```
+
+起動後、以下のURLにアクセスできます。
+
+```text
+http://127.0.0.1:8000/
+http://127.0.0.1:8000/notes
+http://127.0.0.1:8000/docs
+```
+
+VS Code で `fastapi` の import エラーが表示される場合は、このプロジェクトの仮想環境を Python インタプリタとして選択してください。
+
+```text
+.\.venv\Scripts\python.exe
+```
+
 ## 使い方
+
+### CLI
 
 起動すると、以下のメニューが表示されます。
 
@@ -133,6 +160,17 @@ id: 1, title:Hello Python 類似度: 45.45%
 検索はタイトルを対象に行います。検索キーワードとタイトルを 2-gram に分割して類似度を計算し、類似度が一定以上のメモを結果として表示します。
 
 検索結果は、マージソートを使って類似度の高い順に並び替えます。
+
+## HTTP API
+
+現在は最小構成として、以下のエンドポイントを実装しています。
+
+| メソッド | パス | 内容 |
+|---|---|---|
+| GET | `/` | API の動作確認メッセージを返す |
+| GET | `/notes` | 保存済みメモ一覧を JSON で返す |
+
+今後、メモの作成、復号、更新、削除、検索のAPIを追加する予定です。
 
 ## 保存先
 

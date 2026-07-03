@@ -1,5 +1,5 @@
 # パスワードを受け取り、シフト数に変換
-def input_password_shift():
+def input_password_shift(password):
       password = input("パスワード：")
       if password == "":
            print("パスワードを入力してください")
@@ -7,6 +7,12 @@ def input_password_shift():
       hash_text = sha256(password.encode("utf-8"))
       number = int(hash_text, 16)
       return number % 26
+
+def password_to_shift(password):
+    hash_text = sha256(password.encode("utf-8"))
+    number = int(hash_text, 16)
+    return number % 26
+
 # Base64変換テーブル
 TBL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 

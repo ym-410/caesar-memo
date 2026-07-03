@@ -1,7 +1,6 @@
 from crypto import input_password_shift, encrypt, decrypt, base64_encode, base64_decode
-from storage import notes_list, create_note, read_note, update_note, delete_note
-
-
+from storage import load_notes, notes_list, create_note, read_note, update_note, delete_note
+from search import search_notes
 # メモを作成する
 def handle_create():
     title = input("タイトル:")
@@ -106,7 +105,30 @@ def handle_delete():
     else:
         print("指定されたIDのメモはありません")
 
+def handle_search():
+    keyword = input("検索キーワード:")
 
+    if keyword == "":
+        print("検索キーワードを入力してください")
+        return
+
+    notes = load_notes()
+
+    if notes == []:
+        print("保存されているメモはありません")
+        return
+
+    results = search_notes(notes, keyword)
+
+    if results == []:
+        print("該当するメモはありませんでした")
+        return
+
+    print("\n検索結果")
+    for result in results:
+        note = result["note"]
+        score = result["score"]
+        print(f'id: {note["id"]}, title:{note["title"]} 類似度: {score * 100:.2f}%')
 
 def main():
       while True:
@@ -117,6 +139,7 @@ def main():
         print("3. メモを確認する")
         print("4. メモを更新する")
         print("5. メモを削除する")
+        print("6. タイトルから検索する")
         print("0. 終了")
 
         choice = input("選択してください: ")
@@ -131,6 +154,8 @@ def main():
             handle_update()
         elif choice == "5":
             handle_delete()
+        elif choice == "6":
+            handle_search()
         elif choice == "0":
             print("終了します。")
             break

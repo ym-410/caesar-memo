@@ -1,16 +1,9 @@
-from crypto import encrypt, decrypt, base64_encode, base64_decode, sha256, password_to_shift
-from storage import add_note, load_notes
+from crypto import input_password_shift, encrypt, decrypt, base64_encode, base64_decode
+from storage import notes_list, create_note, read_note, update_note, delete_note
 
-# パスワードをシフト数に変換
-def input_password_shift():
-      password = input("パスワード：")
-      if password == "":
-           print("パスワードを入力してください")
-           return
-      return password_to_shift(password)
 
-# メモを追加する
-def handle_add_note():
+# メモを作成する
+def handle_create():
     title = input("タイトル:")
     body = input("本文:")
 
@@ -28,50 +21,24 @@ def handle_add_note():
     encrypted = encrypt(body, shift)
     encoded = base64_encode(encrypted.encode("utf-8"))
 
-    add_note(title, encoded)
+    create_note(title, encoded)
 
     print(f"メモを保存しました。タイトル：{title}")
 
-# メモ一覧を表示
-def notes_list():
-    notes = load_notes()
-
-    if notes == []:
-        print("保存されているメモはありません")
-        return
-    print("\nメモ一覧:")
-    print("==================")
-    for note in notes:
-        print(f"{note["id"]}.{note["title"]}")
-
-# 選択したメモを復号して表示する関数
-def show_note():
-    notes = load_notes()
-
-    if notes == []:
-        print("保存されているメモはありません。")
-        return
-
-    note_id = input("確認するメモのID:")
-    if note_id == "":
-        print("IDを入力してください")
-        return
-
+# メモを1件読み取る
+def handle_read():
     try:
-        note_id = int(note_id)
+        note_id = int(input("確認するメモのID:"))
     except ValueError:
         print("IDは整数で入力してください")
         return
 
-    target_note = None
-    for note in notes:
-        if note["id"] == note_id:
-            target_note = note
-            break
-
-    if target_note is None:
+    note = read_note(note_id)
+    if note is None:
         print("指定されたIDのメモはありません")
         return
+
+    title, body = note
 
     # パスワードの入力
     shift = input_password_shift()
@@ -79,20 +46,64 @@ def show_note():
         return
 
     try:
-        decoded = base64_decode(target_note["body"]).decode("utf-8")
+        decoded = base64_decode(body).decode("utf-8")
     except Exception:
-        print("保存されている本文を複合できません")
+        print("保存されている本文を復号できません")
         return
 
     # Base64化から戻したものを、シーザー暗号の復号にかける
     decrypted = decrypt(decoded, shift)
 
     print("\n==================")
-    print(f"タイトル: {target_note["title"]}")
+    print(f"タイトル: {title}")
     print("------------------")
     print(f"本文:\n{decrypted}")
     print("==================")
 
+def handle_update():
+
+    try:
+        note_id = int(input("更新するメモのID:"))
+    except ValueError:
+        print("IDは整数で入力してください")
+        return
+
+    title = input("変更後のタイトル:")
+    if title == "":
+        print("タイトルを入力してください")
+        return
+
+    body = input("本文を入力してください")
+    if body == "":
+        print("本文を入力してください")
+        return
+
+    shift = input_password_shift()
+    if shift is None:
+        return
+
+    encrypted = encrypt(body, shift)
+    encoded = base64_encode(encrypted.encode("utf-8"))
+
+    success = update_note(note_id, title, encoded)
+    if success:
+        print("ノートを更新しました")
+    else:
+        print("指定されたIDのメモはありません")
+
+
+def handle_delete():
+    try:
+        note_id = int(input("削除するメモのID:"))
+    except ValueError:
+        print("IDは整数で入力してください")
+        return
+
+    success = delete_note(note_id)
+    if success:
+        print(f"メモ(ID:{note_id})が削除されました。")
+    else:
+        print("指定されたIDのメモはありません")
 
 
 
@@ -103,16 +114,22 @@ def main():
         print("1. メモを追加する")
         print("2. メモ一覧を見る")
         print("3. メモを確認する")
+        print("4. メモを更新する")
+        print("5. メモを削除する")
         print("0. 終了")
 
         choice = input("選択してください: ")
 
         if choice == "1":
-            handle_add_note()
+            handle_create()
         elif choice == "2":
             notes_list()
         elif choice == "3":
-            show_note()
+            handle_read()
+        elif choice == "4":
+            handle_update()
+        elif choice == "5":
+            handle_delete()
         elif choice == "0":
             print("終了します。")
             break

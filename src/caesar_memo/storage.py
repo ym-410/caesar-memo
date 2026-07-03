@@ -22,14 +22,60 @@ def save_notes(notes):
     with open(NOTES_FILE, "w", encoding="utf-8") as file:
         json.dump(notes, file, ensure_ascii=False, indent=2)
 
+# メモ一覧を表示
+def notes_list():
+    notes = load_notes()
+
+    if notes == []:
+        print("保存されているメモはありません")
+        return
+    print("\nメモ一覧:")
+    print("==================")
+    for note in notes:
+        print(f'{note["id"]}.{note["title"]}')
+
 # 新しいメモを追加する関数
-def add_note(title, body):
+def create_note(title, body):
     notes = load_notes()
 
     note = {
-        "id": len(notes) + 1,
+        "id": max([note["id"] for note in notes], default=0) + 1,
         "title": title,
         "body": body
     }
     notes.append(note)
     save_notes(notes)
+
+# メモ一件を指定・復号して読み取る関数
+def read_note(note_id):
+    notes = load_notes()
+
+    if notes == []:
+        return
+
+    for note in notes:
+        if note["id"] == note_id:
+            return note["title"], note["body"]
+
+# メモを更新する関数
+def update_note(note_id, title, body):
+    notes = load_notes()
+
+    for note in notes:
+        if note["id"] == note_id:
+            note["title"] = title
+            note["body"] = body
+            save_notes(notes)
+            return True
+    return False
+
+# メモを削除する関数
+def delete_note(note_id):
+    notes = load_notes()
+
+    for note in notes:
+        if note["id"] == note_id:
+            notes.remove(note)
+            save_notes(notes)
+            return True
+    return False

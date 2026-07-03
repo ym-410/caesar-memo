@@ -1,3 +1,12 @@
+# パスワードを受け取り、シフト数に変換
+def input_password_shift():
+      password = input("パスワード：")
+      if password == "":
+           print("パスワードを入力してください")
+           return
+      hash_text = sha256(password.encode("utf-8"))
+      number = int(hash_text, 16)
+      return number % 26
 # Base64変換テーブル
 TBL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 
@@ -138,7 +147,7 @@ def sha256_block(block, hi):
         w.append((w[i-16] + s0 + w[i -7] + s1) & 0xFFFFFFFF)
     # 変数をハッシュで初期化 --- (*8)
     a,b,c,d,e,f,g,h = [hi[i] for i in range(8)]
-    # ローテーション処理 
+    # ローテーション処理
     for i in range(64):
         s0 = rotr(a, 2) ^ rotr(a, 13) ^ rotr(a, 22)
         maj = (a & b) ^ (a & c) ^ (b & c)
@@ -154,7 +163,6 @@ def sha256_block(block, hi):
     h2 = (a,b,c,d,e,f,g,h)
     for i in range(8):
         hi[i] = (hi[i] + h2[i]) & 0xFFFFFFFF
-
 # データを指定サイズに合うように詰め物をする --- (*9)
 def padding(msg, size):
     bits, mod = (len(msg) * 8, len(msg) % size)
@@ -176,8 +184,3 @@ def split_bytes(msg, size):
     for i in range(n):
         a.append(msg[i*size:(i+1)*size])
     return a
-
-def password_to_shift(password):
-    hash_text = sha256(password.encode("utf-8"))
-    number = int(hash_text, 16)
-    return number % 26

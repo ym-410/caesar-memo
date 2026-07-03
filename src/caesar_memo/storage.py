@@ -1,4 +1,5 @@
 import json
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 # __file__: 今実行されているファイル自身のPath
@@ -6,6 +7,11 @@ from pathlib import Path
 # .parents[2]: storage.py からプロジェクトルートまでのぼる
 BASE_DIR = Path(__file__).resolve().parents[2]
 NOTES_FILE = BASE_DIR / "notes.json"
+
+# 現在時刻を取得する関数
+def current_time():
+    jst = timezone(timedelta(hours=9))
+    return datetime.now(jst).isoformat(timespec="seconds")
 
 # 既存メモを読み込む関数
 def load_notes():
@@ -37,11 +43,14 @@ def notes_list():
 # 新しいメモを追加する関数
 def create_note(title, body):
     notes = load_notes()
+    now = current_time()
 
     note = {
         "id": max([note["id"] for note in notes], default=0) + 1,
         "title": title,
-        "body": body
+        "body": body,
+        "created_at": now,
+        "updated_at": now
     }
     notes.append(note)
     save_notes(notes)
@@ -56,15 +65,18 @@ def read_note(note_id):
     for note in notes:
         if note["id"] == note_id:
             return note["title"], note["body"]
+    return None
 
 # メモを更新する関数
 def update_note(note_id, title, body):
     notes = load_notes()
+    now = current_time()
 
     for note in notes:
         if note["id"] == note_id:
             note["title"] = title
             note["body"] = body
+            note["updated_at"] = now()
             save_notes(notes)
             return True
     return False

@@ -4,7 +4,6 @@ from .storage import load_notes, notes_list, create_note, read_note, update_note
 from .hash import input_password_shift
 from .search import search_notes
 
-
 # メモを作成する
 def handle_create():
     title = input("タイトル:")

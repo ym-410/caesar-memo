@@ -178,7 +178,17 @@ id: 1, title:Hello Python 類似度: 45.45%
 ### メモ作成
 
 ```text
-POST /notes?title=Hello&body=Hello Caesar&password=pass123
+POST /notes
+```
+
+リクエスト例:
+
+```json
+{
+  "title": "Hello",
+  "body": "Hello Caesar",
+  "password": "pass123"
+}
 ```
 
 レスポンス例:
@@ -194,7 +204,15 @@ POST /notes?title=Hello&body=Hello Caesar&password=pass123
 ### メモ復号
 
 ```text
-POST /notes/1/decrypt?password=pass123
+POST /notes/1/decrypt
+```
+
+リクエスト例:
+
+```json
+{
+  "password": "pass123"
+}
 ```
 
 レスポンス例:
@@ -212,7 +230,17 @@ POST /notes/1/decrypt?password=pass123
 ### メモ更新
 
 ```text
-PUT /notes/1?title=Updated&body=Updated Caesar&password=pass123
+PUT /notes/1
+```
+
+リクエスト例:
+
+```json
+{
+  "title": "Updated",
+  "body": "Updated Caesar",
+  "password": "pass123"
+}
 ```
 
 レスポンス例:

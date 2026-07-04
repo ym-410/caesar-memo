@@ -55,6 +55,8 @@ def create_note(title, body):
     notes.append(note)
     save_notes(notes)
 
+    return note
+
 # メモ一件を指定・復号して読み取る関数
 def read_note(note_id):
     notes = load_notes()
@@ -78,8 +80,8 @@ def update_note(note_id, title, body):
             note["body"] = body
             note["updated_at"] = now
             save_notes(notes)
-            return True
-    return False
+            return note
+    return None
 
 # メモを削除する関数
 def delete_note(note_id):

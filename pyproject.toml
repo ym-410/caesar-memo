@@ -1,7 +1,7 @@
 [project]
 name = "caesar-memo"
 version = "0.1.0"
-description = "Add your description here"
+description = "A Caesar cipher CLI memo app using SHA-256-derived shifts and Base64 encoding"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [

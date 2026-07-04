@@ -1,4 +1,4 @@
-from sorter import merge_sort_by_score
+from .sorter import merge_sort_by_score
 
 def ngram(text, n):
     # 文字を小文字にする

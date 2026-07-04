@@ -163,14 +163,80 @@ id: 1, title:Hello Python 類似度: 45.45%
 
 ## HTTP API
 
-現在は最小構成として、以下のエンドポイントを実装しています。
+以下のエンドポイントを実装しています。
 
 | メソッド | パス | 内容 |
 |---|---|---|
 | GET | `/` | API の動作確認メッセージを返す |
 | GET | `/notes` | 保存済みメモ一覧を JSON で返す |
+| POST | `/notes` | メモを作成する |
+| POST | `/notes/{note_id}/decrypt` | 指定したメモを復号して返す |
+| PUT | `/notes/{note_id}` | 指定したメモを更新する |
+| DELETE | `/notes/{note_id}` | 指定したメモを削除する |
 
-今後、メモの作成、復号、更新、削除、検索のAPIを追加する予定です。
+### メモ作成
+
+```text
+POST /notes?title=Hello&body=Hello Caesar&password=pass123
+```
+
+レスポンス例:
+
+```json
+{
+  "id": 1,
+  "title": "Hello",
+  "created_at": "2026-07-03T18:30:00+09:00"
+}
+```
+
+### メモ復号
+
+```text
+POST /notes/1/decrypt?password=pass123
+```
+
+レスポンス例:
+
+```json
+{
+  "id": 1,
+  "title": "Hello",
+  "body": "Hello Caesar",
+  "created_at": "2026-07-03T18:30:00+09:00",
+  "updated_at": "2026-07-03T18:30:00+09:00"
+}
+```
+
+### メモ更新
+
+```text
+PUT /notes/1?title=Updated&body=Updated Caesar&password=pass123
+```
+
+レスポンス例:
+
+```json
+{
+  "id": 1,
+  "title": "Updated",
+  "updated_at": "2026-07-03T19:00:00+09:00"
+}
+```
+
+### メモ削除
+
+```text
+DELETE /notes/1
+```
+
+レスポンス例:
+
+```json
+{
+  "success": "ノートを削除しました"
+}
+```
 
 ## 保存先
 

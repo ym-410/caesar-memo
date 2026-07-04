@@ -169,6 +169,7 @@ id: 1, title:Hello Python 類似度: 45.45%
 |---|---|---|
 | GET | `/` | API の動作確認メッセージを返す |
 | GET | `/notes` | 保存済みメモ一覧を JSON で返す |
+| GET | `/notes/search` | タイトルからメモを検索する |
 | POST | `/notes` | メモを作成する |
 | POST | `/notes/{note_id}/decrypt` | 指定したメモを復号して返す |
 | PUT | `/notes/{note_id}` | 指定したメモを更新する |
@@ -236,6 +237,27 @@ DELETE /notes/1
 {
   "success": "ノートを削除しました"
 }
+```
+
+### メモ検索
+
+```text
+GET /notes/search?q=python
+```
+
+検索はタイトルを対象に行います。検索結果は類似度の高い順に並びます。
+
+レスポンス例:
+
+```json
+[
+  {
+    "id": 1,
+    "title": "Python学習",
+    "score": 0.45,
+    "updated_at": "2026-07-03T18:30:00+09:00"
+  }
+]
 ```
 
 ## 保存先

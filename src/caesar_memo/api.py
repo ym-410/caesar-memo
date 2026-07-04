@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 
 # 相対インポート
 from .storage import load_notes, create_note, read_note, update_note, delete_note
+from .search import search_notes
 from .base64_codec import base64_decode, base64_encode
 from .crypto import decrypt, encrypt
 from .hash import password_to_shift
@@ -13,6 +14,28 @@ app = FastAPI()
 @app.get("/")
 def root():
     return {"message": "Caesar Memo API"}
+
+# 検索機能
+@app.get("/notes/search")
+def handle_search(q: str):
+    if q == "":
+        raise HTTPException(
+            status_code=400,
+            detail="検索キーワードは必須です"
+        )
+    
+    notes = load_notes()
+    results = search_notes(notes, q)
+
+    return [
+        {
+            "id": result["note"]["id"],
+            "title": result["note"]["title"],
+            "score": result["score"],
+            "updated_at": result["note"]["updated_at"]
+        }
+        for result in results
+    ]
 
 # 一覧表示
 @app.get("/notes")

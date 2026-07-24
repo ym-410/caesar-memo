@@ -1,4 +1,8 @@
+from pathlib import Path
+
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 # 相対インポート
@@ -20,11 +24,19 @@ class PasswordRequest(BaseModel):
 
 # APIアプリ本体を作る
 app = FastAPI()
+STATIC_DIR = Path(__file__).resolve().parent / "static"
+# /staticでstatic内のフォルダを配信する
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 
 @app.get("/")
 def root():
     return {"message": "Caesar Memo API"}
+
+# /ui にアクセスしたらstatic/index.htmlを返す
+@app.get("/ui")
+def ui():
+    return FileResponse(STATIC_DIR / "index.html")
 
 # 検索機能
 @app.get("/notes/search")

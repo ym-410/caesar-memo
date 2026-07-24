@@ -13,11 +13,11 @@ def password_to_shift(password):
     number = int(hash_text, 16)
     return number % 26
 
-# ハッシュの初期値を設定 --- (*1)
+# ハッシュの初期値を設定 
 SHA256H = [
     0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a,
     0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19]
-# 丸め定数を初期化 --- (*2)
+# 丸め定数を初期化
 SHA256K = [
     0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5,
     0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
@@ -36,27 +36,27 @@ SHA256K = [
     0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208,
     0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2]
 
-# SHA-256のハッシュを求める関数 --- (*1)
+# SHA-256のハッシュを求める関数 
 def sha256(msg):
-    # ハッシュを初期化する --- (*2)
+    # ハッシュを初期化する 
     hi = [SHA256H[i] for i in range(8)]
-    # ブロックサイズに合うようにパディング --- (*3)
+    # ブロックサイズに合うようにパディング 
     msg = bytearray(msg)
     pad = padding(msg, 64)
-    # ブロックサイズで区切って繰り返し処理する --- (*4)
+    # ブロックサイズで区切って繰り返し処理する 
     msg_blocks = split_bytes(pad, 64)
     for block in msg_blocks:
         sha256_block(block, hi)
     # HEX文字列で出力
     return ''.join(map(r'{:08x}'.format, hi))
 
-# ビットローテーションを行う --- (*5)
+# ビットローテーションを行う 
 def rotr(x, y):
     return ((x >> y) | (x << (32 - y))) & 0xFFFFFFFF
 
-# 64ビットのブロックを処理 --- (*6)
+# 64ビットのブロックを処理 
 def sha256_block(block, hi):
-    # 64バイトを32ビットずつ16個のリストに分割 --- (*7)
+    # 64バイトを32ビットずつ16個のリストに分割 
     w = []
     for i in range(16):
         v = (block[i*4+0] << 24) + (block[i*4+1] << 16) + \
@@ -67,7 +67,7 @@ def sha256_block(block, hi):
         s0 = rotr(w[i-15], 7) ^ rotr(w[i-15], 18) ^ (w[i-15] >> 3)
         s1 = rotr(w[i-2], 17) ^ rotr(w[i-2], 19) ^ (w[i-2] >> 10)
         w.append((w[i-16] + s0 + w[i -7] + s1) & 0xFFFFFFFF)
-    # 変数をハッシュで初期化 --- (*8)
+    # 変数をハッシュで初期化
     a,b,c,d,e,f,g,h = [hi[i] for i in range(8)]
     # ローテーション処理
     for i in range(64):
@@ -85,7 +85,7 @@ def sha256_block(block, hi):
     h2 = (a,b,c,d,e,f,g,h)
     for i in range(8):
         hi[i] = (hi[i] + h2[i]) & 0xFFFFFFFF
-# データを指定サイズに合うように詰め物をする --- (*9)
+# データを指定サイズに合うように詰め物をする
 def padding(msg, size):
     bits, mod = (len(msg) * 8, len(msg) % size)
     padcount = size - mod
@@ -99,7 +99,7 @@ def padding(msg, size):
         bits >>= 8
     return msg
 
-# データを指定バイトごとに区切る --- (*10)
+# データを指定バイトごとに区切る 
 def split_bytes(msg, size):
     a = []
     n = len(msg) // size + (0 if len(msg) % size == 0 else 1)

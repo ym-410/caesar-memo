@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Caesar Memo</title>
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <!-- 画面上部のヘッダーです。更新ボタンとAPIドキュメントへのリンクを置いています。 -->
+    <header class="app-header">
+      <div>
+        <h1>Caesar Memo</h1>
+        <p>Encrypted memo workspace</p>
+      </div>
+      <div class="header-actions">
+        <a class="secondary-button" href="/static/create.html">新規作成</a>
+        <button id="refreshButton" class="secondary-button" type="button">更新</button>
+        <a class="secondary-button" href="/docs">API</a>
+      </div>
+    </header>
+
+    <!-- 画面全体は、左のメモ一覧エリアと右の操作エリアに分けています。 -->
+    <main class="app-shell">
+      <!-- 左側: メモ一覧とタイトル検索を表示するエリアです。 -->
+      <section class="notes-panel" aria-label="メモ一覧">
+        <div class="panel-heading">
+          <h2>メモ</h2>
+          <span id="noteCount" class="count-label">0件</span>
+        </div>
+
+        <!-- 検索フォームです。JavaScriptでGET /notes/search?q=...を呼び出します。 -->
+        <form id="searchForm" class="search-row">
+          <input id="searchInput" type="search" placeholder="タイトル検索" autocomplete="off">
+          <button type="submit">検索</button>
+          <button id="clearSearchButton" class="icon-button" type="button" title="検索を解除">×</button>
+        </form>
+
+        <!-- JavaScriptがメモ一覧のボタンをここに追加します。 -->
+        <div id="notesList" class="notes-list"></div>
+      </section>
+
+      <!-- 右側: メモの復号、更新、削除を行うエリアです。 -->
+      <section class="editor-panel" aria-label="メモ操作">
+        <!-- API処理の成功やエラーを表示する場所です。 -->
+        <div id="message" class="message" role="status"></div>
+
+        <!-- 一覧から選択したメモを復号・更新・削除するフォームです。 -->
+        <div class="form-section">
+          <div class="section-title-row">
+            <h2>選択中のメモ</h2>
+            <span id="selectedLabel" class="count-label">未選択</span>
+          </div>
+
+          <!-- パスワードだけを送り、暗号化済み本文を復号します。 -->
+          <form id="decryptForm" class="inline-form">
+            <input id="decryptPassword" type="password" placeholder="復号パスワード" autocomplete="current-password">
+            <button type="submit">復号</button>
+          </form>
+
+          <!-- 復号後の本文を編集し、PUT /notes/{id} で更新します。 -->
+          <form id="updateForm" class="memo-form">
+            <label>
+              タイトル
+              <input id="updateTitle" type="text" autocomplete="off">
+            </label>
+            <label>
+              本文
+              <textarea id="updateBody" rows="6"></textarea>
+            </label>
+            <label>
+              パスワード
+              <input id="updatePassword" type="password" autocomplete="new-password">
+            </label>
+            <div class="button-row">
+              <button type="submit">更新</button>
+              <button id="deleteButton" class="danger-button" type="button">削除</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <!-- 画面の動作はapp.jsにまとめています。 -->
+    <script src="/static/app.js"></script>
+  </body>
+</html>

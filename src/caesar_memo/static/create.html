@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ノート作成 - Caesar Memo</title>
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <h1>ノート作成</h1>
+        <p>新しい暗号化メモを保存します</p>
+      </div>
+      <div class="header-actions">
+        <a class="secondary-button" href="/ui">一覧へ戻る</a>
+      </div>
+    </header>
+
+    <main class="page-shell">
+      <section class="form-section create-panel">
+        <div id="message" class="message" role="status"></div>
+
+        <form id="createForm" class="memo-form">
+          <label>
+            タイトル
+            <input id="createTitle" type="text" autocomplete="off" required>
+          </label>
+          <label>
+            本文
+            <textarea id="createBody" rows="8" required></textarea>
+          </label>
+          <label>
+            パスワード
+            <input id="createPassword" type="password" autocomplete="new-password" required>
+          </label>
+          <div class="button-row">
+            <button type="submit">保存</button>
+            <a class="secondary-button" href="/ui">キャンセル</a>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <script src="/static/create.js"></script>
+  </body>
+</html>

@@ -57,6 +57,7 @@ uv run uvicorn src.caesar_memo.api:app --reload
 
 ```text
 http://127.0.0.1:8000/
+http://127.0.0.1:8000/ui
 http://127.0.0.1:8000/notes
 http://127.0.0.1:8000/docs
 ```
@@ -68,6 +69,16 @@ VS Code で `fastapi` の import エラーが表示される場合は、この�
 ```
 
 ## 使い方
+
+### Web UI
+
+API サーバーを起動したあと、以下のURLを開くとブラウザからメモを操作できます。
+
+```text
+http://127.0.0.1:8000/ui
+```
+
+Web UI では、メモの作成、一覧表示、タイトル検索、復号、更新、削除ができます。
 
 ### CLI
 

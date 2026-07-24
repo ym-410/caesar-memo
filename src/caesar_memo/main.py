@@ -1,6 +1,9 @@
-from crypto import input_password_shift, encrypt, decrypt, base64_encode, base64_decode
-from storage import load_notes, notes_list, create_note, read_note, update_note, delete_note
-from search import search_notes
+from .base64_codec import base64_encode, base64_decode
+from .crypto import encrypt, decrypt
+from .storage import load_notes, notes_list, create_note, read_note, update_note, delete_note
+from .hash import input_password_shift
+from .search import search_notes
+
 # メモを作成する
 def handle_create():
     title = input("タイトル:")

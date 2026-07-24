@@ -33,14 +33,19 @@ Caesar Memo は、シーザー暗号と Base64 を使って本文を暗号化し
 ## 実行方法
 
 ```powershell
-uv run python src\caesar_memo\main.py
+$env:PYTHONPATH = "src"
+uv run python -m caesar_memo.main
 ```
 
-または、仮想環境を有効化して実行します。
+`main.py` は相対インポートを使用しているため、`python src\caesar_memo\main.py` のような直接実行はできません。
+仮想環境を使う場合も、同じく `PYTHONPATH` を設定してモジュールとして実行します。
 
 ```powershell
-.\.venv\Scripts\python.exe src\caesar_memo\main.py
+$env:PYTHONPATH = "src"
+.\.venv\Scripts\python.exe -m caesar_memo.main
 ```
+
+本プロジェクトの対象は CLI アプリです。HTTP API と Web UI は要件に含めません。
 
 ## 使い方
 

@@ -89,7 +89,7 @@ def sha256_block(block, hi):
 def padding(msg, size):
     bits, mod = (len(msg) * 8, len(msg) % size)
     padcount = size - mod
-    if mod > size - 8:
+    if mod >= size - 8:
         padcount += 64
     for i in range(padcount):
         msg.append(0x80 if i == 0 else 0)

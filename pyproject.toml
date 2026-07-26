@@ -5,3 +5,10 @@ description = "A CLI memo app  demonstrating Caesar cipher, SHA-256, Base64, sea
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = []
+
+[project.scripts]
+caesar-memo = "caesar_memo.main:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

@@ -32,6 +32,8 @@ uv sync
 
 `uv sync` によって仮想環境 `.venv` が作成され、`caesar-memo` コマンドで起動できるようになります。
 
+`notes.json`がない場合はメモを追加したときに自動で作成されます。  
+
 ## 起動方法
 
 セットアップ後、プロジェクトルートで次のコマンドを実行します。
@@ -106,12 +108,11 @@ Hello Caesar
 選択してください: 4
 更新するメモのID:1
 変更後のタイトル: Updated
-本文を入力してくださいUpdated Caesar
+本文を入力してください: Updated Caesar
 パスワード：pass123
 ノートを更新しました
 ```
 
-更新時も、本文はパスワードから生成したシフト数で暗号化し、Base64 文字列に変換して保存されます。
 
 ### メモを削除する
 
@@ -163,7 +164,8 @@ caesar-memo/
       └─ storage.py
 ```
 
-`notes.json` はローカルデータのため、Git 管理対象外です。初期状態のサンプルとして `notes.example.json` を置いています。
+`notes.json` はローカルデータのため、Git 管理対象外です。初期状態のサンプルとして `notes.example.json` を置いています。  
+`notes.example.json` のサンプル本文は、パスワード `pass123` で復号できます。
 
 保存されるメモには、作成日時を表す `created_at` と、更新日時を表す `updated_at` が含まれます。
 

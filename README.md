@@ -145,12 +145,12 @@ id: 1, title:Hello Python 類似度: 45.45%
 
 ```text
 src/caesar_memo/
-├─ main.py          # CLIメニューと入出力
-├─ crypto.py        # シーザー暗号
+├─ main.py           # CLIメニューと入出力
+├─ crypto.py         # シーザー暗号
 ├─ password_shift.py # パスワードからシフト数を生成
-├─ storage.py       # JSON保存とCRUD
-├─ search.py        # 2-gram類似検索
-└─ sorter.py        # マージソート
+├─ storage.py        # JSON保存とCRUD
+├─ search.py         # 2-gram類似検索
+└─ sorter.py         # マージソート
 ```
 
 ## 保存先

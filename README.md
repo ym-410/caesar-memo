@@ -42,6 +42,12 @@ Copy-Item notes.example.json notes.json
 セットアップ後、プロジェクトルートで次のコマンドを実行します。
 
 ```powershell
+python main.py
+```
+
+uv のコマンドとして起動する場合は、次のコマンドでも実行できます。
+
+```powershell
 uv run caesar-memo
 ```
 
@@ -60,7 +66,7 @@ uv run caesar-memo
 ```
 
 `src\caesar_memo\main.py` を直接実行する方法では、相対インポートの関係で起動できません。
-必ず `uv run caesar-memo` で起動してください。
+必ずプロジェクトルートの `main.py` または `uv run caesar-memo` で起動してください。
 
 ## 使い方
 
@@ -159,6 +165,7 @@ src/caesar_memo/
 
 ```text
 caesar-memo/
+├─ main.py
 ├─ notes.json
 └─ src/
    └─ caesar_memo/

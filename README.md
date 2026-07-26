@@ -20,16 +20,10 @@ Caesar Memoはシーザー暗号を使って本文を暗号化して保存する
 
 ## セットアップ
 
-このプロジェクトは Python 3.12 と uv を使って実行します。
-初回はプロジェクトルートで次のコマンドを実行してください。
+このプロジェクトは Python 3.12 以上で実行します。
+外部ライブラリは使用していないため、`python main.py` で起動する場合は追加のインストール作業は不要です。
 
-```powershell
-uv sync
-```
-
-`uv sync` によって仮想環境 `.venv` が作成され、`caesar-memo` コマンドで起動できるようになります。
-
-サンプルデータを使う場合は、`notes.example.json` を `notes.json` にコピーしてください。
+サンプルデータを使う場合は、プロジェクトルートで `notes.example.json` を `notes.json` にコピーしてください。
 
 ```powershell
 Copy-Item notes.example.json notes.json
@@ -39,13 +33,19 @@ Copy-Item notes.example.json notes.json
 
 ## 起動方法
 
-セットアップ後、プロジェクトルートで次のコマンドを実行します。
+プロジェクトルートで次のコマンドを実行します。
 
 ```powershell
 python main.py
 ```
 
-uv のコマンドとして起動する場合は、次のコマンドでも実行できます。
+uv を使う場合は、初回に次のコマンドを実行します。
+
+```powershell
+uv sync
+```
+
+その後、次のコマンドでも起動できます。
 
 ```powershell
 uv run caesar-memo

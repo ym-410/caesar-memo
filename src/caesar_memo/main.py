@@ -1,6 +1,8 @@
-from crypto import input_password_shift, encrypt, decrypt, base64_encode, base64_decode
-from storage import load_notes, notes_list, create_note, read_note, update_note, delete_note
-from search import search_notes
+from .crypto import encrypt, decrypt
+from .storage import load_notes, notes_list, create_note, read_note, update_note, delete_note
+from .password_shift import input_password_shift
+from .search import search_notes
+
 # メモを作成する
 def handle_create():
     title = input("タイトル:")
@@ -18,9 +20,8 @@ def handle_create():
         return
 
     encrypted = encrypt(body, shift)
-    encoded = base64_encode(encrypted.encode("utf-8"))
 
-    create_note(title, encoded)
+    create_note(title, encrypted)
 
     print(f"メモを保存しました。タイトル：{title}")
 
@@ -45,14 +46,7 @@ def handle_read():
     if shift is None:
         return
 
-    try:
-        decoded = base64_decode(body).decode("utf-8")
-    except Exception:
-        print("保存されている本文を復号できません")
-        return
-
-    # Base64化から戻したものを、シーザー暗号の復号にかける
-    decrypted = decrypt(decoded, shift)
+    decrypted = decrypt(body, shift)
 
     print("\n==================")
     print(f"タイトル: {title}")
@@ -73,7 +67,7 @@ def handle_update():
         print("タイトルを入力してください")
         return
 
-    body = input("本文を入力してください")
+    body = input("本文を入力してください: ")
     if body == "":
         print("本文を入力してください")
         return
@@ -83,9 +77,8 @@ def handle_update():
         return
 
     encrypted = encrypt(body, shift)
-    encoded = base64_encode(encrypted.encode("utf-8"))
 
-    success = update_note(note_id, title, encoded)
+    success = update_note(note_id, title, encrypted)
     if success:
         print("ノートを更新しました")
     else:

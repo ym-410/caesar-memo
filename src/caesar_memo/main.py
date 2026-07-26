@@ -62,6 +62,11 @@ def handle_update():
         print("IDは整数で入力してください")
         return
 
+    note = read_note(note_id)
+    if note is None:
+        print("指定されたIDのメモはありません")
+        return
+
     title = input("変更後のタイトル:")
     if title == "":
         print("タイトルを入力してください")

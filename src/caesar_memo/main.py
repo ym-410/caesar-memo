@@ -76,7 +76,7 @@ def handle_update():
         print("タイトルを入力してください")
         return
 
-    body = input("本文を入力してください")
+    body = input("本文を入力してください: ")
     if body == "":
         print("本文を入力してください")
         return

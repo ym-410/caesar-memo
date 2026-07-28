@@ -1,5 +1,5 @@
 from .crypto import encrypt, decrypt
-from .storage import load_notes, notes_list, create_note, read_note, update_note, delete_note
+from .storage import load_notes, create_note, read_note, update_note, delete_note
 from .password_shift import input_password_shift
 from .search import search_notes
 
@@ -54,6 +54,20 @@ def handle_read():
     print(f"本文:\n{decrypted}")
     print("==================")
 
+# メモ一覧
+def handle_list():
+    notes = load_notes()
+
+    if notes == []:
+        print("保存されているメモはありません")
+        return
+
+    print("\nメモ一覧:")
+    print("==================")
+    for note in notes:
+        print(f'{note["id"]}.{note["title"]}')
+
+# メモ更新
 def handle_update():
 
     try:
@@ -89,7 +103,7 @@ def handle_update():
     else:
         print("指定されたIDのメモはありません")
 
-
+# メモ削除
 def handle_delete():
     try:
         note_id = int(input("削除するメモのID:"))
@@ -103,6 +117,7 @@ def handle_delete():
     else:
         print("指定されたIDのメモはありません")
 
+# メモ検索
 def handle_search():
     keyword = input("検索キーワード:")
 
@@ -145,7 +160,7 @@ def main():
         if choice == "1":
             handle_create()
         elif choice == "2":
-            notes_list()
+            handle_list()
         elif choice == "3":
             handle_read()
         elif choice == "4":

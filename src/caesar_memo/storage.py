@@ -19,7 +19,7 @@ def load_notes():
         with open(NOTES_FILE, "r", encoding="utf-8") as file:
             return json.load(file)
     except FileNotFoundError:
-        return[]
+        return []
     except json.JSONDecodeError:
         return []
 
@@ -50,7 +50,7 @@ def read_note(note_id):
     notes = load_notes()
 
     if notes == []:
-        return
+        return None
 
     for note in notes:
         if note["id"] == note_id:

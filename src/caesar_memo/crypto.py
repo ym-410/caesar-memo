@@ -16,7 +16,7 @@ def shift_range(c, start, end, key_no):
 
 # 暗号化
 def encrypt(src, key_no):
-    result = ""
+    result = []
     # 1文字ずつ処理する
     for c in src:
         # 大文字ならkey_no分ずらす
@@ -32,8 +32,8 @@ def encrypt(src, key_no):
             c = shift_range(c, ord("一"), ord("龯"), key_no)
 
         # 変換結果を追加
-        result += c
-    return result
+        result.append(c)
+    return "".join(result)
 
 # 復号化
 def decrypt(src, key_no):

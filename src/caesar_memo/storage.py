@@ -19,7 +19,7 @@ def load_notes():
         with open(NOTES_FILE, "r", encoding="utf-8") as file:
             return json.load(file)
     except FileNotFoundError:
-        return[]
+        return []
     except json.JSONDecodeError:
         return []
 
@@ -27,18 +27,6 @@ def load_notes():
 def save_notes(notes):
     with open(NOTES_FILE, "w", encoding="utf-8") as file:
         json.dump(notes, file, ensure_ascii=False, indent=2)
-
-# メモ一覧を表示
-def notes_list():
-    notes = load_notes()
-
-    if notes == []:
-        print("保存されているメモはありません")
-        return
-    print("\nメモ一覧:")
-    print("==================")
-    for note in notes:
-        print(f'{note["id"]}.{note["title"]}')
 
 # 新しいメモを追加する関数
 def create_note(title, body):
@@ -62,7 +50,7 @@ def read_note(note_id):
     notes = load_notes()
 
     if notes == []:
-        return
+        return None
 
     for note in notes:
         if note["id"] == note_id:

@@ -144,7 +144,7 @@ def handle_search():
         print(f'id: {note["id"]}, title:{note["title"]} 類似度: {score * 100:.2f}%')
 
 def main():
-      while True:
+    while True:
         print()
         print("=== Caesar Memo ===")
         print("1. メモを追加する")
@@ -177,4 +177,4 @@ def main():
 
 
 if __name__ == "__main__":
-      main()
+    main()
